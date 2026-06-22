@@ -7,7 +7,7 @@ function HowItWorksStep({ number, title, description, index, isLast }) {
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: false, amount: 0.25 }}
       transition={{ duration: 0.5, delay: index * 0.2 }}
       className="flex flex-col md:flex-row items-start md:items-center gap-4"
     >

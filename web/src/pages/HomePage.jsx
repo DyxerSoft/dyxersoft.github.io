@@ -1,711 +1,652 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 import {
   AlertCircle,
-  Zap,
-  Clock,
-  FileText,
-  TrendingDown,
-  Users,
-  TrendingUp,
-  Target,
-  Gauge,
-  Shield,
-  BarChart,
-  CheckCircle,
-  Sparkles,
-  Code,
-  Smartphone,
-  Wrench,
-  Database,
-  PieChart,
-  Layout,
-  Workflow,
-  Link,
-  Brain,
-  TestTube,
-  RefreshCw,
-  Lightbulb,
-  Award,
-  MapPin,
-  Headphones,
-  Rocket,
-  Lock,
-  Radio,
-  Building,
-  ShoppingCart,
-  Briefcase,
-  MessageSquare,
   ArrowRight,
+  BarChart,
+  Brain,
+  Briefcase,
+  Building,
+  Clock,
+  Code,
+  Database,
+  Gauge,
+  Headphones,
+  Layout,
+  Link,
+  Lock,
+  MessageSquare,
+  Radio,
+  Rocket,
+  Shield,
+  ShoppingCart,
+  Target,
+  Users,
+  Workflow,
 } from 'lucide-react';
-import ProblemCard from '@/components/ProblemCard.jsx';
-import BenefitCard from '@/components/BenefitCard.jsx';
-import ServiceCard from '@/components/ServiceCard.jsx';
-import DifferentiatorCard from '@/components/DifferentiatorCard.jsx';
-import IndustryCard from '@/components/IndustryCard.jsx';
-import HowItWorksStep from '@/components/HowItWorksStep.jsx';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
 import ContactForm from '@/components/ContactForm.jsx';
+import logoDx from '@/assets/dyxersoft-logo-dx-v2.png';
+import projectAiImage from '@/assets/projects/project-ai.jpg';
+import projectAutomationImage from '@/assets/projects/project-automation.jpg';
+import projectBiImage from '@/assets/projects/project-bi.jpg';
+import projectModernizationImage from '@/assets/projects/project-modernization.jpg';
+import projectPigimImage from '@/assets/projects/project-pigim.jpg';
+
+const PIGIM_APP_URL = 'https://pigim-frontend.onrender.com';
 
 function HomePage() {
-  const problems = [
+  const scrollTo = (selector) => {
+    const element = document.querySelector(selector);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const painPoints = [
     {
-      icon: AlertCircle,
-      title: 'Incidencias dispersas',
-      description: 'Tickets en WhatsApp, correos, llamadas y planillas. Sin un punto central de registro.',
-    },
-    {
-      icon: Zap,
-      title: 'Falta de trazabilidad',
-      description: 'No hay historial claro de quién atendió qué, cuándo y cómo se resolvió.',
+      icon: MessageSquare,
+      title: 'Canales dispersos',
+      description: 'WhatsApp, correo, llamadas y planillas compiten por atencion sin una fuente unica de verdad.',
     },
     {
       icon: Clock,
-      title: 'Atención lenta',
-      description: 'Sin priorización clara, los casos críticos se mezclan con los menores.',
+      title: 'Respuesta lenta',
+      description: 'Los casos criticos se mezclan con solicitudes menores y el equipo pierde tiempo clasificando.',
     },
     {
-      icon: FileText,
+      icon: AlertCircle,
+      title: 'Trazabilidad debil',
+      description: 'No queda claro quien atendio cada caso, que cambio, cuando vencia el SLA o como se resolvio.',
+    },
+    {
+      icon: BarChart,
       title: 'Reportes manuales',
-      description: 'Horas perdidas consolidando datos en Excel para reportes gerenciales.',
+      description: 'La gerencia decide con datos incompletos porque consolidar metricas consume horas operativas.',
+    },
+  ];
+
+  const modules = [
+    { icon: MessageSquare, title: 'Mesa multicanal', desc: 'Entrada web, correo, API y WhatsApp.' },
+    { icon: Target, title: 'Priorizacion', desc: 'Urgencia, impacto, SLA y reglas por cliente.' },
+    { icon: Workflow, title: 'Flujos de atencion', desc: 'Estados, responsables, escalamiento y evidencias.' },
+    { icon: Gauge, title: 'SLA en vivo', desc: 'Alertas antes del vencimiento y semaforos claros.' },
+    { icon: BarChart, title: 'Dashboard ejecutivo', desc: 'Metricas operativas listas para decidir.' },
+    { icon: Shield, title: 'Historial auditable', desc: 'Bitacora completa de acciones y cambios.' },
+    { icon: Brain, title: 'IA preparada', desc: 'Clasificacion, sugerencias y analisis predictivo.' },
+    { icon: Link, title: 'Integraciones', desc: 'Conecta CRM, ERP, BI y sistemas internos.' },
+  ];
+
+  const services = [
+    { icon: Code, title: 'Desarrollo SaaS', description: 'Plataformas web escalables, multi-tenant y listas para crecer.' },
+    { icon: Layout, title: 'Dashboards ejecutivos', description: 'Experiencias de datos claras para gerencia y operacion.' },
+    { icon: Database, title: 'Ingenieria de datos', description: 'Pipelines, ETL, modelos analiticos y gobierno de datos.' },
+    { icon: Workflow, title: 'Automatizacion', description: 'Procesos repetitivos convertidos en flujos medibles.' },
+    { icon: Brain, title: 'Inteligencia artificial', description: 'Modelos aplicados a clasificacion, prediccion y soporte.' },
+    { icon: Lock, title: 'Modernizacion segura', description: 'Evolucion de sistemas legacy sin perder operacion.' },
+  ];
+
+  const projects = [
+    {
+      icon: Gauge,
+      image: projectPigimImage,
+      type: 'Producto SaaS',
+      title: 'PIGIM',
+      description: 'Gestion integral de incidencias con priorizacion, SLA, bitacora, evidencia y paneles operativos.',
+      impact: 'Control completo del ciclo de atencion',
+      stack: ['React', 'API', 'Dashboards', 'SLA'],
     },
     {
-      icon: TrendingDown,
-      title: 'Decisiones sin datos',
-      description: 'No hay métricas confiables para mejorar procesos o asignar recursos.',
+      icon: BarChart,
+      image: projectBiImage,
+      type: 'Analitica',
+      title: 'Centro ejecutivo de datos',
+      description: 'Dashboards para seguimiento de ventas, soporte, productividad y alertas de gestion.',
+      impact: 'Decisiones con metricas actualizadas',
+      stack: ['BI', 'ETL', 'KPIs', 'Reportes'],
     },
     {
-      icon: Users,
-      title: 'Equipos saturados',
-      description: 'Sin visibilidad de carga de trabajo, algunos agentes colapsan mientras otros esperan.',
+      icon: Workflow,
+      image: projectAutomationImage,
+      type: 'Automatizacion',
+      title: 'Flujos internos a medida',
+      description: 'Digitalizacion de aprobaciones, asignaciones, seguimiento de tareas y trazabilidad documental.',
+      impact: 'Menos tareas manuales y mas visibilidad',
+      stack: ['Workflows', 'Roles', 'Notificaciones', 'Auditoria'],
+    },
+    {
+      icon: Brain,
+      image: projectAiImage,
+      type: 'IA aplicada',
+      title: 'Asistentes para operacion',
+      description: 'Clasificacion de solicitudes, respuestas sugeridas y lectura inteligente de datos operativos.',
+      impact: 'Atencion mas rapida y consistente',
+      stack: ['IA', 'NLP', 'Clasificacion', 'Soporte'],
+    },
+    {
+      icon: Lock,
+      image: projectModernizationImage,
+      type: 'Modernizacion',
+      title: 'Sistemas empresariales seguros',
+      description: 'Evolucion de sistemas legacy hacia plataformas web con permisos, integraciones y escalabilidad.',
+      impact: 'Continuidad operativa sin frenar el negocio',
+      stack: ['Web apps', 'Seguridad', 'Integraciones', 'Cloud'],
     },
   ];
 
   const benefits = [
-    {
-      icon: TrendingUp,
-      title: 'Reducción de tiempo de respuesta',
-      description: 'Priorización automática y asignación inteligente aceleran la atención.',
-      featured: true,
-    },
-    {
-      icon: Target,
-      title: 'Mayor visibilidad operativa',
-      description: 'Dashboards en tiempo real muestran el estado de todas las incidencias.',
-    },
-    {
-      icon: Gauge,
-      title: 'Cumplimiento de SLA',
-      description: 'Alertas automáticas y métricas de tiempo garantizan el cumplimiento de acuerdos.',
-    },
-    {
-      icon: Shield,
-      title: 'Decisiones basadas en datos',
-      description: 'Reportes automáticos y analítica histórica para optimizar procesos.',
-    },
-    {
-      icon: BarChart,
-      title: 'Equipos más productivos',
-      description: 'Distribución equilibrada de carga y visibilidad de rendimiento individual.',
-    },
-    {
-      icon: CheckCircle,
-      title: 'Mejor experiencia del cliente',
-      description: 'Respuestas más rápidas y seguimiento transparente mejoran la satisfacción.',
-    },
-    {
-      icon: Sparkles,
-      title: 'Escalabilidad sin caos',
-      description: 'Crece tu operación sin perder control ni calidad de servicio.',
-    },
-  ];
-
-  const services = [
-    {
-      icon: Code,
-      title: 'Desarrollo SaaS',
-      description: 'Plataformas web escalables, multi-tenant y listas para crecer.',
-    },
-    {
-      icon: Smartphone,
-      title: 'Desarrollo web y móvil',
-      description: 'Aplicaciones modernas, responsivas y centradas en el usuario.',
-    },
-    {
-      icon: Wrench,
-      title: 'Software personalizado',
-      description: 'Soluciones a medida que se adaptan a tus procesos únicos.',
-    },
-    {
-      icon: Database,
-      title: 'Ingeniería de datos',
-      description: 'Pipelines, ETL y arquitecturas de datos robustas.',
-    },
-    {
-      icon: PieChart,
-      title: 'Business Intelligence',
-      description: 'Convierte datos en insights accionables para tu negocio.',
-    },
-    {
-      icon: Layout,
-      title: 'Dashboards ejecutivos',
-      description: 'Visualizaciones claras y métricas clave para la toma de decisiones.',
-    },
-    {
-      icon: Workflow,
-      title: 'Automatización de procesos',
-      description: 'Elimina tareas repetitivas y libera tiempo de tu equipo.',
-    },
-    {
-      icon: Link,
-      title: 'Integración de sistemas',
-      description: 'Conecta tus herramientas existentes en un ecosistema unificado.',
-    },
-    {
-      icon: Brain,
-      title: 'Inteligencia artificial',
-      description: 'Modelos de ML, NLP y análisis predictivo para tu industria.',
-    },
-    {
-      icon: TestTube,
-      title: 'QA Testing',
-      description: 'Aseguramiento de calidad y testing automatizado.',
-    },
-    {
-      icon: RefreshCw,
-      title: 'Modernización de sistemas legacy',
-      description: 'Actualiza tecnología obsoleta sin perder funcionalidad.',
-    },
-    {
-      icon: Lightbulb,
-      title: 'Consultoría tecnológica',
-      description: 'Asesoría estratégica para transformación digital.',
-    },
-  ];
-
-  const differentiators = [
-    {
-      icon: Award,
-      title: 'Experiencia local, estándares globales',
-      description: 'Conocemos el mercado boliviano y aplicamos mejores prácticas internacionales.',
-    },
-    {
-      icon: Users,
-      title: 'Equipo multidisciplinario',
-      description: 'Desarrolladores, ingenieros de datos, diseñadores y consultores trabajando juntos.',
-    },
-    {
-      icon: MapPin,
-      title: 'Presencia en Bolivia',
-      description: 'Oficinas en Santa Cruz, soporte en tu zona horaria y en tu idioma.',
-    },
-    {
-      icon: Headphones,
-      title: 'Soporte continuo',
-      description: 'No solo entregamos software, acompañamos tu crecimiento.',
-    },
-    {
-      icon: Rocket,
-      title: 'Metodología ágil',
-      description: 'Entregas iterativas, feedback constante y adaptación rápida.',
-    },
-    {
-      icon: Lock,
-      title: 'Seguridad y confiabilidad',
-      description: 'Arquitecturas robustas, backups automáticos y cumplimiento de estándares.',
-    },
+    { value: '-42%', label: 'tiempo de respuesta', detail: 'al centralizar y priorizar incidencias' },
+    { value: '94%', label: 'cumplimiento SLA', detail: 'con alertas y escalamiento oportuno' },
+    { value: '1 vista', label: 'operacion completa', detail: 'tickets, agentes, estados y metricas' },
+    { value: '24/7', label: 'trazabilidad', detail: 'historial auditable de cada caso' },
   ];
 
   const industries = [
-    {
-      icon: Radio,
-      title: 'Telecomunicaciones',
-      description: 'Gestión de incidencias de red, soporte técnico y atención al cliente.',
-    },
-    {
-      icon: Building,
-      title: 'Servicios financieros',
-      description: 'Seguimiento de casos, cumplimiento normativo y reportes auditables.',
-    },
-    {
-      icon: Users,
-      title: 'Cooperativas',
-      description: 'Atención a socios, gestión de reclamos y trazabilidad completa.',
-    },
-    {
-      icon: ShoppingCart,
-      title: 'Retail',
-      description: 'Soporte post-venta, devoluciones y gestión de garantías.',
-    },
-    {
-      icon: Briefcase,
-      title: 'Empresas de servicios',
-      description: 'Tickets de mantenimiento, órdenes de trabajo y seguimiento de SLA.',
-    },
-    {
-      icon: Headphones,
-      title: 'Áreas de soporte y operaciones',
-      description: 'Centralización de incidencias internas y externas.',
-    },
-    {
-      icon: MessageSquare,
-      title: 'Empresas con atención multicanal',
-      description: 'Unifica WhatsApp, email, teléfono y web en una sola plataforma.',
-    },
+    { icon: Radio, title: 'Telecomunicaciones' },
+    { icon: Building, title: 'Servicios financieros' },
+    { icon: Users, title: 'Cooperativas' },
+    { icon: ShoppingCart, title: 'Retail' },
+    { icon: Briefcase, title: 'Empresas de servicios' },
+    { icon: Headphones, title: 'Soporte y operaciones' },
   ];
 
-  const howItWorksSteps = [
-    {
-      number: 1,
-      title: 'Registro',
-      description: 'Captura incidencias desde cualquier canal: web, email, API o integración.',
-    },
-    {
-      number: 2,
-      title: 'Clasificación y priorización',
-      description: 'Asigna categorías, niveles de urgencia y responsables automáticamente.',
-    },
-    {
-      number: 3,
-      title: 'Atención y resolución',
-      description: 'Seguimiento en tiempo real, historial completo y colaboración del equipo.',
-    },
-    {
-      number: 4,
-      title: 'Visualización de métricas',
-      description: 'Dashboards ejecutivos y reportes automáticos para decisiones informadas.',
-    },
+  const tickets = [
+    { code: 'INC-2481', title: 'Caida de enlace principal', level: 'Critico', time: '00:18', status: 'Escalado' },
+    { code: 'INC-2479', title: 'Solicitud de acceso BI', level: 'Medio', time: '01:42', status: 'Asignado' },
+    { code: 'INC-2474', title: 'Error en facturacion', level: 'Alto', time: '02:11', status: 'En curso' },
   ];
 
-  const dashboardMetrics = [
-    { label: 'Incidencias abiertas', value: '47', color: 'bg-destructive' },
-    { label: 'Casos críticos', value: '12', color: 'bg-accent' },
-    { label: 'SLA cumplido', value: '94.2%', color: 'bg-primary' },
-    { label: 'Tiempo promedio', value: '2.4h', color: 'bg-secondary' },
-    { label: 'Resueltas', value: '1,847', color: 'bg-primary' },
-  ];
+  const flow = ['Registro', 'Clasificacion', 'Asignacion', 'Resolucion', 'Metricas'];
 
   return (
     <>
       <Helmet>
-        <title>Dyxersoft | Soluciones SaaS, IA y Gestión Inteligente de Incidencias</title>
+        <title>Dyxersoft | PIGIM para gestion inteligente de incidencias</title>
         <meta
           name="description"
-          content="Dyxersoft desarrolla plataformas SaaS, software personalizado, ingeniería de datos e inteligencia artificial. Conoce PIGIM, nuestra plataforma inteligente para gestionar incidencias empresariales."
+          content="PIGIM centraliza incidencias empresariales, prioriza casos criticos, controla SLA y entrega metricas en tiempo real para equipos de soporte y operaciones."
         />
         <meta
           name="keywords"
-          content="SaaS, software personalizado, ingeniería de datos, business intelligence, inteligencia artificial, gestión de incidencias, PIGIM, desarrollo web, Bolivia, Santa Cruz"
+          content="PIGIM, Dyxersoft, gestion de incidencias, software Bolivia, SaaS, inteligencia artificial, dashboards, SLA, soporte tecnico"
         />
+        <meta property="og:title" content="Dyxersoft | PIGIM para gestion inteligente de incidencias" />
+        <meta property="og:description" content="Control operativo, trazabilidad y datos en tiempo real para empresas que atienden incidencias multicanal." />
       </Helmet>
 
-      <main>
-        {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center bg-gradient-to-br from-background via-background to-primary/5">
-          <div className="section-container py-20">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="space-y-8"
-              >
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-balance" style={{ letterSpacing: '-0.02em' }}>
-                  Gestión inteligente de incidencias para empresas que necesitan control, velocidad y datos
+      <main className="overflow-hidden">
+        <section className="blue-hero relative min-h-[calc(100vh-5rem)] overflow-hidden">
+          <div className="absolute inset-x-0 top-0 h-1 bg-secondary/70" />
+          <div className="section-container relative z-10 grid min-h-[calc(100vh-5rem)] grid-cols-1 items-center gap-12 py-16 lg:grid-cols-[1fr_0.92fr] lg:py-20">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="space-y-8"
+            >
+              <div className="inline-flex items-center gap-2 rounded-full border border-secondary/20 bg-secondary/10 px-4 py-2 text-sm font-semibold text-secondary">
+                Gestion de incidencias empresariales
+              </div>
+
+              <div className="space-y-6">
+                <h1 className="max-w-5xl text-4xl font-black leading-[1.02] text-foreground md:text-6xl lg:text-7xl">
+                  Control operativo para empresas que atienden incidencias criticas
                 </h1>
-                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
-                  Dyxersoft desarrolla soluciones SaaS, software personalizado e ingeniería de datos. PIGIM es nuestra plataforma para centralizar, priorizar y resolver incidencias con métricas en tiempo real.
+                <p className="text-lg leading-8 text-muted-foreground md:text-xl">
+                  Dyxersoft desarrolla PIGIM, una plataforma para centralizar solicitudes, priorizar casos,
+                  controlar SLA y convertir la operacion diaria en informacion confiable para la toma de decisiones.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button
-                    size="lg"
-                    onClick={() => {
-                      const element = document.querySelector('#contacto');
-                      if (element) element.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 active:scale-[0.98] transition-all duration-200"
-                  >
-                    Solicitar demo de PIGIM
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    onClick={() => {
-                      const element = document.querySelector('#servicios');
-                      if (element) element.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    className="border-primary text-primary hover:bg-primary/10 active:scale-[0.98] transition-all duration-200"
-                  >
-                    Ver soluciones
-                  </Button>
-                </div>
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="relative"
-              >
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                  <img
-                    src="https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b"
-                    alt="Panel de control de PIGIM mostrando métricas de incidencias en tiempo real"
-                    className="w-full h-auto"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {dashboardMetrics.map((metric, index) => (
-                      <motion.div
-                        key={metric.label}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
-                      >
-                        <Card className="bg-background/95 backdrop-blur-sm border-0">
-                          <CardContent className="p-3">
-                            <div className={`w-2 h-2 rounded-full ${metric.color} mb-2`} />
-                            <p className="text-xs text-muted-foreground mb-1">{metric.label}</p>
-                            <p className="text-lg font-bold text-foreground">{metric.value}</p>
-                          </CardContent>
-                        </Card>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* Problem Section */}
-        <section className="py-20 bg-muted/30">
-          <div className="section-container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-balance">
-                Las empresas no pierden eficiencia por falta de esfuerzo. La pierden por procesos desordenados.
-              </h2>
-            </motion.div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {problems.map((problem, index) => (
-                <ProblemCard key={index} {...problem} index={index} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* PIGIM Product Section */}
-        <section id="pigim" className="py-24 bg-background">
-          <div className="section-container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">PIGIM: Plataforma Inteligente de Gestión de Incidencias</h2>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Una solución completa para centralizar, priorizar y resolver incidencias con visibilidad total y métricas en tiempo real.
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-              {[
-                { title: 'Registro y centralización', desc: 'Captura desde cualquier canal' },
-                { title: 'Gestión de estados', desc: 'Flujos personalizables' },
-                { title: 'Priorización inteligente', desc: 'Asignación automática' },
-                { title: 'Dashboard operativo/ejecutivo', desc: 'Métricas en tiempo real' },
-                { title: 'Métricas de SLA', desc: 'Cumplimiento garantizado' },
-                { title: 'Historial y trazabilidad', desc: 'Auditoría completa' },
-                { title: 'Reportes y analítica', desc: 'Insights accionables' },
-                { title: 'Preparado para integraciones e IA', desc: 'Escalable y extensible' },
-              ].map((module, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                >
-                  <Card className="h-full bg-card border-primary/20 hover:border-primary/50 hover:shadow-lg transition-all duration-300">
-                    <CardContent className="p-6">
-                      <h3 className="text-lg font-semibold mb-2 text-card-foreground">{module.title}</h3>
-                      <p className="text-sm text-muted-foreground">{module.desc}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center"
-            >
-              <Button
-                size="lg"
-                onClick={() => {
-                  const element = document.querySelector('#contacto');
-                  if (element) element.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 active:scale-[0.98] transition-all duration-200"
-              >
-                Quiero una demo de PIGIM
-              </Button>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* How It Works */}
-        <section className="py-24 bg-muted/30">
-          <div className="section-container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">Cómo funciona PIGIM</h2>
-            </motion.div>
-            <div className="max-w-5xl mx-auto space-y-8">
-              {howItWorksSteps.map((step, index) => (
-                <HowItWorksStep
-                  key={index}
-                  {...step}
-                  index={index}
-                  isLast={index === howItWorksSteps.length - 1}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Business Benefits */}
-        <section id="beneficios" className="py-24 bg-background">
-          <div className="section-container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-                Menos caos operativo. Más control, productividad y datos.
-              </h2>
-            </motion.div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {benefits.map((benefit, index) => (
-                <BenefitCard key={index} {...benefit} index={index} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Dyxersoft Services */}
-        <section id="servicios" className="py-24 bg-muted/30">
-          <div className="section-container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-                Más que software: construimos soluciones digitales escalables
-              </h2>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Desde plataformas SaaS hasta inteligencia artificial, acompañamos tu transformación digital.
-              </p>
-            </motion.div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {services.map((service, index) => (
-                <ServiceCard key={index} {...service} index={index} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Differentiators */}
-        <section className="py-24 bg-background">
-          <div className="section-container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">Por qué Dyxersoft</h2>
-            </motion.div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {differentiators.map((diff, index) => (
-                <DifferentiatorCard key={index} {...diff} index={index} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Target Industries */}
-        <section className="py-24 bg-muted/30">
-          <div className="section-container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">Industrias que atendemos</h2>
-            </motion.div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {industries.map((industry, index) => (
-                <IndustryCard key={index} {...industry} index={index} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Strong CTA Section */}
-        <section className="py-24 bg-primary text-primary-foreground">
-          <div className="section-container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-4xl mx-auto space-y-8"
-            >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-balance">
-                ¿Tu empresa sigue gestionando incidencias en WhatsApp, correos o planillas?
-              </h2>
-              <p className="text-lg md:text-xl text-primary-foreground/90 leading-relaxed">
-                Es momento de centralizar, automatizar y tomar decisiones basadas en datos reales. PIGIM te da el control que necesitas.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <Button
                   size="lg"
-                  onClick={() => {
-                    const element = document.querySelector('#contacto');
-                    if (element) element.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="bg-background text-foreground hover:bg-background/90 active:scale-[0.98] transition-all duration-200"
+                  asChild
+                  className="bg-primary text-primary-foreground shadow-sm transition-all duration-200 hover:bg-primary/90 active:scale-[0.98]"
                 >
-                  Solicitar demo ahora
+                  <a href={PIGIM_APP_URL} target="_blank" rel="noopener noreferrer">
+                    Solicitar demo de PIGIM
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </a>
                 </Button>
                 <Button
                   size="lg"
                   variant="outline"
-                  onClick={() => {
-                    const element = document.querySelector('#nosotros');
-                    if (element) element.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 active:scale-[0.98] transition-all duration-200"
+                  asChild
+                  className="border-border bg-card text-foreground hover:bg-muted"
                 >
-                  Conocer más sobre nosotros
+                  <a href={PIGIM_APP_URL} target="_blank" rel="noopener noreferrer">
+                    Ver plataforma
+                  </a>
                 </Button>
+              </div>
+
+              <div className="grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4">
+                {benefits.map((item) => (
+                  <div key={item.label} className="enterprise-card top-accent rounded-lg p-4">
+                    <p className="text-2xl font-black text-secondary">{item.value}</p>
+                    <p className="mt-1 text-sm font-semibold text-muted-foreground">{item.label}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="relative"
+            >
+              <div className="surface-panel rounded-xl p-4 md:p-6">
+                <div className="mb-5 flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <img src={logoDx} alt="" className="h-12 w-12 rounded-lg border border-border object-cover shadow-sm" />
+                    <div>
+                      <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">Panel operativo</p>
+                      <h2 className="text-2xl font-black text-foreground">PIGIM Live Ops</h2>
+                    </div>
+                  </div>
+                  <div className="rounded-full border border-secondary/20 bg-secondary/10 px-3 py-1 text-xs font-bold text-secondary">
+                    En linea
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+                  {[
+                    ['47', 'abiertas'],
+                    ['12', 'criticas'],
+                    ['94.2%', 'SLA'],
+                    ['2.4h', 'promedio'],
+                  ].map(([value, label]) => (
+                    <div key={label} className="rounded-lg border border-border bg-background/45 p-4">
+                      <p className="text-2xl font-black text-foreground">{value}</p>
+                      <p className="mt-1 text-xs uppercase tracking-[0.16em] text-muted-foreground">{label}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-5 rounded-xl border border-border bg-background/45 p-4">
+                  <div className="mb-4 flex items-center justify-between">
+                    <p className="text-sm font-bold text-foreground">Incidencias en prioridad</p>
+                    <span className="text-xs text-muted-foreground">actualizado hace 12s</span>
+                  </div>
+                  <div className="space-y-3">
+                    {tickets.map((ticket) => (
+                      <div key={ticket.code} className="grid grid-cols-[1fr_auto] gap-3 rounded-lg border border-border bg-card/75 p-3">
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="font-mono text-xs text-secondary">{ticket.code}</span>
+                            <span className="rounded-full bg-primary/15 px-2 py-0.5 text-[11px] font-bold text-primary">
+                              {ticket.level}
+                            </span>
+                          </div>
+                          <p className="mt-1 font-semibold text-foreground">{ticket.title}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-mono text-sm font-bold text-primary">{ticket.time}</p>
+                          <p className="mt-1 text-xs text-muted-foreground">{ticket.status}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-5 grid grid-cols-5 gap-2">
+                  {flow.map((step, index) => (
+                    <div key={step} className="relative rounded-lg border border-border bg-background/45 p-3 text-center">
+                      <div className="mx-auto mb-2 flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-black text-primary-foreground">
+                        {index + 1}
+                      </div>
+                      <p className="text-[11px] font-semibold text-muted-foreground">{step}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* About Us */}
-        <section id="nosotros" className="py-24 bg-background">
+        <section className="bg-background py-20">
           <div className="section-container">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="space-y-6"
-              >
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">Sobre Dyxersoft</h2>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  Somos un equipo multidisciplinario de desarrolladores, ingenieros de datos, diseñadores y consultores tecnológicos con base en Santa Cruz de la Sierra, Bolivia.
-                </p>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  Nuestra visión es clara: ayudar a empresas latinoamericanas a escalar con tecnología de clase mundial. Combinamos experiencia local con estándares globales para entregar soluciones que realmente funcionan.
-                </p>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  Desde plataformas SaaS hasta proyectos de inteligencia artificial, trabajamos con metodologías ágiles, soporte continuo y un compromiso real con el éxito de nuestros clientes.
-                </p>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="grid grid-cols-2 gap-6"
-              >
-                {[
-                  { value: '50+', label: 'Proyectos entregados' },
-                  { value: '30+', label: 'Clientes activos' },
-                  { value: '5+', label: 'Años de experiencia' },
-                  { value: '100%', label: 'Compromiso con calidad' },
-                ].map((stat, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                  >
-                    <Card className="bg-primary text-primary-foreground border-0">
-                      <CardContent className="p-6 text-center">
-                        <p className="text-4xl font-bold mb-2">{stat.value}</p>
-                        <p className="text-sm text-primary-foreground/80">{stat.label}</p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </motion.div>
+            <div className="mb-12 max-w-4xl">
+              <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-secondary">El problema real</p>
+              <h2 className="text-3xl font-black leading-tight md:text-5xl">
+                No falta esfuerzo. Falta una operacion conectada, medible y visible.
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {painPoints.map(({ icon: Icon, title, description }, index) => (
+                <motion.div
+                  key={title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.25 }}
+                  transition={{ duration: 0.45, delay: index * 0.06 }}
+                  className="enterprise-card rounded-xl p-6"
+                >
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-muted text-primary">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground">{title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{description}</p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Contact Form */}
-        <section id="contacto" className="py-24 bg-muted/30">
+        <section id="pigim" className="blue-section py-24">
           <div className="section-container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+              <div className="space-y-6">
+                <p className="text-sm font-bold uppercase tracking-[0.2em] text-secondary">PIGIM</p>
+                <h2 className="text-3xl font-black leading-tight md:text-5xl">
+                  Una plataforma para gobernar incidencias desde el registro hasta la decision.
+                </h2>
+                <p className="text-lg leading-8 text-muted-foreground">
+                  PIGIM unifica tickets, responsables, prioridades, SLA, evidencia y reportes. La operacion deja de
+                  depender de memoria, chats sueltos o hojas manuales.
+                </p>
+                <Button
+                  size="lg"
+                  asChild
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                >
+                  <a href={PIGIM_APP_URL} target="_blank" rel="noopener noreferrer">
+                    Ver PIGIM
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </a>
+                </Button>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {modules.map(({ icon: Icon, title, desc }, index) => (
+                  <motion.div
+                    key={title}
+                    initial={{ opacity: 0, y: 18 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.25 }}
+                    transition={{ duration: 0.4, delay: index * 0.04 }}
+                    className="enterprise-card rounded-xl p-5"
+                  >
+                    <Icon className="mb-4 h-6 w-6 text-primary" />
+                    <h3 className="font-bold text-foreground">{title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">{desc}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="beneficios" className="bg-background py-24">
+          <div className="section-container">
+            <div className="mb-12 text-center">
+              <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-secondary">Impacto</p>
+              <h2 className="mx-auto max-w-4xl text-3xl font-black leading-tight md:text-5xl">
+                Menos ruido operativo. Mas velocidad, control y aprendizaje.
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {benefits.map((benefit, index) => (
+                <motion.div
+                  key={benefit.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.25 }}
+                  transition={{ duration: 0.4, delay: index * 0.06 }}
+                >
+                  <Card className="enterprise-card h-full">
+                    <CardContent className="p-6">
+                      <p className="text-4xl font-black text-primary">{benefit.value}</p>
+                      <h3 className="mt-3 text-xl font-bold text-foreground">{benefit.label}</h3>
+                      <p className="mt-3 text-sm leading-6 text-muted-foreground">{benefit.detail}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="servicios" className="bg-card py-24">
+          <div className="section-container">
+            <div className="mb-12 max-w-4xl">
+              <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-secondary">Dyxersoft</p>
+              <h2 className="text-3xl font-black leading-tight md:text-5xl">
+                Construimos software con la misma prioridad: que la operacion sea mas inteligente.
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {services.map(({ icon: Icon, title, description }, index) => (
+                <motion.div
+                  key={title}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.25 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  className="enterprise-card rounded-xl p-6"
+                >
+                  <Icon className="mb-5 h-7 w-7 text-primary" />
+                  <h3 className="text-xl font-bold text-foreground">{title}</h3>
+                  <p className="mt-3 leading-7 text-muted-foreground">{description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="proyectos" className="blue-section py-24">
+          <div className="section-container">
+            <div className="mb-12 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-4xl">
+                <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-secondary">Proyectos</p>
+                <h2 className="text-3xl font-black leading-tight md:text-5xl">
+                  Soluciones digitales pensadas para operar, medir y escalar.
+                </h2>
+                <p className="mt-5 text-lg leading-8 text-muted-foreground">
+                  Estos casos muestran el tipo de software que desarrollamos: productos SaaS, sistemas a medida,
+                  automatizacion, datos e inteligencia artificial aplicada a procesos reales.
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                onClick={() => scrollTo('#contacto')}
+                className="w-fit border-border bg-card text-foreground hover:bg-muted"
+              >
+                Cotizar un proyecto
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+
+            <Carousel
+              opts={{ align: 'start', loop: true }}
+              className="mx-auto max-w-[calc(100vw-2rem)]"
             >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">Hablemos de tu proyecto</h2>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Cuéntanos qué necesitas y te mostraremos cómo podemos ayudarte a escalar con tecnología.
+              <CarouselContent className="-ml-5">
+                {projects.map(({ icon: Icon, image, type, title, description, impact, stack }, index) => (
+                  <CarouselItem key={title} className="pl-5 md:basis-1/2 xl:basis-1/3">
+                    <motion.article
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: false, amount: 0.25 }}
+                      transition={{ duration: 0.45, delay: index * 0.05 }}
+                      className="enterprise-card glow-border flex h-full min-h-[520px] flex-col overflow-hidden rounded-xl"
+                    >
+                      <div className="relative aspect-[16/10] overflow-hidden border-b border-border bg-background">
+                        <img
+                          src={image}
+                          alt={`Visual del proyecto ${title}`}
+                          className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent" />
+                        <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4">
+                          <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-white/10 bg-background/80 text-primary shadow-lg backdrop-blur">
+                            <Icon className="h-6 w-6" />
+                          </div>
+                          <Badge variant="outline" className="border-secondary/25 bg-background/80 text-secondary backdrop-blur">
+                            {type}
+                          </Badge>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-1 flex-col p-6">
+                        <h3 className="text-2xl font-black text-foreground">{title}</h3>
+                        <p className="mt-4 leading-7 text-muted-foreground">{description}</p>
+
+                        <div className="mt-6 rounded-lg border border-border bg-background/50 p-4">
+                          <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Impacto</p>
+                          <p className="mt-2 font-semibold text-foreground">{impact}</p>
+                        </div>
+
+                        <div className="mt-auto flex flex-wrap gap-2 pt-6">
+                          {stack.map((item) => (
+                            <span key={item} className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground">
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.article>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="-left-3 border-border bg-card text-foreground hover:bg-muted md:-left-6" />
+              <CarouselNext className="-right-3 border-border bg-card text-foreground hover:bg-muted md:-right-6" />
+            </Carousel>
+
+            <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-5">
+              {projects.map(({ image, title, type }) => (
+                <div key={`${title}-preview`} className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-border bg-card">
+                  <img
+                    src={image}
+                    alt={`Vista previa de ${title}`}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+                  <div className="absolute inset-x-3 bottom-3">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">{type}</p>
+                    <p className="mt-1 line-clamp-2 text-sm font-bold text-foreground">{title}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-background py-24">
+          <div className="section-container">
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+              <div>
+                <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-secondary">Industrias</p>
+                <h2 className="max-w-3xl text-3xl font-black leading-tight md:text-5xl">
+                  Para equipos que no pueden perder control cuando sube el volumen.
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {industries.map(({ icon: Icon, title }) => (
+                  <div key={title} className="flex items-center gap-3 rounded-lg border border-border bg-card p-4">
+                    <Icon className="h-5 w-5 text-primary" />
+                    <span className="font-semibold text-foreground">{title}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="dark-cta border-y border-secondary/15 py-20 text-foreground">
+          <div className="section-container">
+            <div className="mx-auto max-w-4xl text-center">
+              <Rocket className="mx-auto mb-5 h-10 w-10 text-secondary" />
+              <h2 className="text-3xl font-black leading-tight md:text-5xl">
+                Si tus incidencias viven en chats y planillas, estas perdiendo informacion operativa.
+              </h2>
+              <p className="mx-auto mt-5 text-lg leading-8 text-muted-foreground">
+                Centraliza, automatiza y convierte cada caso atendido en datos utiles para mejorar la operacion.
               </p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="max-w-3xl mx-auto"
-            >
-              <Card className="bg-card border-border">
-                <CardContent className="p-8">
+              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+                <Button size="lg" asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
+                  <a href={PIGIM_APP_URL} target="_blank" rel="noopener noreferrer">
+                    Solicitar demo ahora
+                  </a>
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  onClick={() => scrollTo('#nosotros')}
+                  className="border-secondary/35 bg-transparent text-foreground hover:bg-secondary/10 hover:text-secondary"
+                >
+                  Conocer Dyxersoft
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="nosotros" className="bg-card py-24">
+          <div className="section-container">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
+              <div className="space-y-6">
+                <p className="text-sm font-bold uppercase tracking-[0.2em] text-secondary">Sobre nosotros</p>
+                <h2 className="text-3xl font-black leading-tight md:text-5xl">Tecnologia hecha desde Bolivia para operaciones que quieren escalar.</h2>
+                <p className="text-lg leading-8 text-muted-foreground">
+                  Somos un equipo multidisciplinario con base en Santa Cruz de la Sierra. Disenamos productos SaaS,
+                  soluciones a medida, analitica e IA con enfoque practico: resolver problemas reales y sostenerlos en produccion.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {['Software', 'Datos', 'IA', 'Automatizacion', 'Soporte continuo'].map((tag) => (
+                    <span key={tag} className="rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold text-primary">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  ['50+', 'proyectos entregados'],
+                  ['30+', 'clientes activos'],
+                  ['5+', 'anos de experiencia'],
+                  ['100%', 'compromiso con calidad'],
+                ].map(([value, label]) => (
+                  <div key={label} className="rounded-xl border border-border bg-card p-6 text-center shadow-sm">
+                    <p className="text-4xl font-black text-primary">{value}</p>
+                    <p className="mt-2 text-sm font-semibold text-muted-foreground">{label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="contacto" className="bg-muted/55 py-24">
+          <div className="section-container">
+            <div className="mx-auto mb-12 max-w-3xl text-center">
+              <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-secondary">Contacto</p>
+              <h2 className="text-3xl font-black leading-tight md:text-5xl">Hablemos de tu operacion</h2>
+              <p className="mx-auto mt-5 text-lg leading-8 text-muted-foreground">
+                Cuentanos que canales usas, cuantos casos atiendes y donde se pierde visibilidad. Te mostramos como PIGIM puede ordenar ese flujo.
+              </p>
+            </div>
+            <div className="mx-auto max-w-3xl">
+              <Card className="border-border bg-card shadow-sm">
+                <CardContent className="p-6 md:p-8">
                   <ContactForm />
                 </CardContent>
               </Card>
-            </motion.div>
+            </div>
           </div>
         </section>
       </main>

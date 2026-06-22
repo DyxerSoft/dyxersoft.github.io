@@ -7,7 +7,7 @@ function DifferentiatorCard({ icon: Icon, title, description, index }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: false, amount: 0.25 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <Card className="h-full bg-accent/10 border-accent/30 hover:shadow-lg transition-all duration-300">

@@ -7,7 +7,7 @@ function IndustryCard({ icon: Icon, title, description, index }) {
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
+      viewport={{ once: false, amount: 0.25 }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
     >
       <Card className="h-full bg-secondary/10 border-secondary/30 hover:shadow-lg hover:scale-105 transition-all duration-300">

@@ -7,7 +7,7 @@ function ServiceCard({ icon: Icon, title, description, index }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: false, amount: 0.25 }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
     >
       <Card className="h-full border border-border bg-card hover:shadow-lg hover:border-primary/50 transition-all duration-300">

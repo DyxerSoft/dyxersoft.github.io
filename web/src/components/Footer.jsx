@@ -1,15 +1,29 @@
 import React from 'react';
 import { Facebook, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import logoDx from '@/assets/dyxersoft-logo-dx-v2.png';
+
+const linkedInUrl = 'https://www.linkedin.com/company/dyxersoft';
+const facebookUrl = 'https://www.facebook.com/share/1KwhxcATJr/';
 
 function Footer() {
   return (
-    <footer className="bg-primary text-primary-foreground">
+    <footer className="border-t border-border bg-background text-foreground">
       <div className="section-container py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold">Dyxersoft</h3>
-            <p className="text-sm text-primary-foreground/80 leading-relaxed">
-              Soluciones SaaS, datos e IA para empresas que buscan escalar
+            <div className="flex items-center gap-3">
+              <img
+                src={logoDx}
+                alt=""
+                className="h-12 w-12 rounded-lg border border-secondary/20 object-cover shadow-[0_0_22px_rgba(14,165,233,0.14)]"
+              />
+              <div>
+                <h3 className="text-2xl font-bold">Dyxersoft</h3>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-secondary">PIGIM</p>
+              </div>
+            </div>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              Soluciones SaaS, datos e IA para empresas que necesitan operar con control, velocidad y trazabilidad.
             </p>
           </div>
 
@@ -18,73 +32,70 @@ function Footer() {
             <div className="space-y-3">
               <a
                 href="mailto:contacto@dyxersoft.com"
-                className="flex items-center gap-2 text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
               >
-                <Mail className="w-4 h-4" />
+                <Mail className="h-4 w-4" />
                 <span>contacto@dyxersoft.com</span>
               </a>
               <a
-                href="https://wa.me/591620694477"
+                href="https://wa.me/59162069477"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
               >
-                <Phone className="w-4 h-4" />
-                <span>+591 6206 9477</span>
+                <Phone className="h-4 w-4" />
+                <span>+591 62069477</span>
               </a>
-              <div className="flex items-center gap-2 text-sm text-primary-foreground/80">
-                <MapPin className="w-4 h-4" />
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <MapPin className="h-4 w-4" />
                 <span>Santa Cruz de la Sierra, Bolivia</span>
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Síguenos</h4>
+            <h4 className="text-lg font-semibold">Siguenos</h4>
             <div className="flex gap-4">
               <a
-                href="https://linkedin.com/company/dyxersoft"
+                href={linkedInUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-primary-foreground/20 transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="rounded-lg border border-border bg-muted/50 p-2 text-muted-foreground transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-label="LinkedIn"
               >
-                <Linkedin className="w-5 h-5" />
+                <Linkedin className="h-5 w-5" />
               </a>
               <a
-                href="https://facebook.com/dyxersoft"
+                href={facebookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-primary-foreground/10 rounded-lg hover:bg-primary-foreground/20 transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                className="rounded-lg border border-border bg-muted/50 p-2 text-muted-foreground transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-label="Facebook"
               >
-                <Facebook className="w-5 h-5" />
+                <Facebook className="h-5 w-5" />
               </a>
             </div>
           </div>
 
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold">Legal</h4>
+            <h4 className="text-lg font-semibold">Producto</h4>
             <div className="space-y-2">
-              <a
-                href="#"
-                className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
-              >
-                Política de privacidad
+              <a href="#pigim" className="block text-sm text-muted-foreground transition-colors hover:text-primary">
+                PIGIM
               </a>
-              <a
-                href="#"
-                className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
-              >
-                Términos de servicio
+              <a href="#servicios" className="block text-sm text-muted-foreground transition-colors hover:text-primary">
+                Servicios
+              </a>
+              <a href="#contacto" className="block text-sm text-muted-foreground transition-colors hover:text-primary">
+                Solicitar demo
               </a>
             </div>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-primary-foreground/20">
-          <p className="text-center text-sm text-primary-foreground/80">
-            © {new Date().getFullYear()} Dyxersoft. Todos los derechos reservados.
+        <div className="mt-12 border-t border-border pt-8">
+          <p className="text-center text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} Dyxersoft. Todos los derechos reservados.
           </p>
         </div>
       </div>
