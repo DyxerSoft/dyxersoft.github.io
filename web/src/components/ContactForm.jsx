@@ -16,7 +16,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xdarlpkw';
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mlgywkel';
 
 const formSchema = z.object({
   nombre: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),

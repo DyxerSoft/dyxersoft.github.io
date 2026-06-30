@@ -31,11 +31,11 @@ function Footer() {
             <h4 className="text-lg font-semibold">Contacto</h4>
             <div className="space-y-3">
               <a
-                href="mailto:contacto@dyxersoft.com"
+                href="mailto:dyxersoft@gmail.com"
                 className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
               >
                 <Mail className="h-4 w-4" />
-                <span>contacto@dyxersoft.com</span>
+                <span>dyxersoft@gmail.com</span>
               </a>
               <a
                 href="https://wa.me/59162069477"

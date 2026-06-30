@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import {
@@ -37,15 +37,36 @@ import {
 } from '@/components/ui/carousel';
 import ContactForm from '@/components/ContactForm.jsx';
 import logoDx from '@/assets/dyxersoft-logo-dx-v2.png';
-import projectAiImage from '@/assets/projects/project-ai.jpg';
-import projectAutomationImage from '@/assets/projects/project-automation.jpg';
-import projectBiImage from '@/assets/projects/project-bi.jpg';
-import projectModernizationImage from '@/assets/projects/project-modernization.jpg';
-import projectPigimImage from '@/assets/projects/project-pigim.jpg';
+import pigimTourScreenshot from '@/assets/screenshots/pigim-dashboard-desktop.jpg';
+import aiDataImage from '@/assets/showcase/ai-data.jpg';
+import analyticsBiImage from '@/assets/showcase/analytics-bi.jpg';
+import automationWorkflowsImage from '@/assets/showcase/automation-workflows.jpg';
+import cloudInfrastructureImage from '@/assets/showcase/cloud-infrastructure.jpg';
+import softwareDevelopmentImage from '@/assets/showcase/software-development.jpg';
 
 const PIGIM_APP_URL = 'https://pigim-frontend.onrender.com';
+const SITE_URL = 'https://dyxersoft.github.io/';
+const SITE_TITLE = 'Dyxersoft | Software a medida, SaaS, datos e IA en Bolivia';
+const SITE_DESCRIPTION =
+  'Dyxersoft desarrolla software a medida, plataformas SaaS, dashboards, automatizacion e inteligencia artificial para empresas que necesitan operar con control y datos confiables.';
+const OG_IMAGE_URL = `${SITE_URL}og-dyxersoft.jpg`;
 
 function HomePage() {
+  const [projectCarouselApi, setProjectCarouselApi] = useState(null);
+  const [isProjectCarouselPaused, setIsProjectCarouselPaused] = useState(false);
+
+  useEffect(() => {
+    if (!projectCarouselApi || isProjectCarouselPaused) {
+      return undefined;
+    }
+
+    const intervalId = window.setInterval(() => {
+      projectCarouselApi.scrollNext();
+    }, 4200);
+
+    return () => window.clearInterval(intervalId);
+  }, [projectCarouselApi, isProjectCarouselPaused]);
+
   const scrollTo = (selector) => {
     const element = document.querySelector(selector);
     if (element) {
@@ -96,51 +117,98 @@ function HomePage() {
     { icon: Lock, title: 'Modernizacion segura', description: 'Evolucion de sistemas legacy sin perder operacion.' },
   ];
 
+  const processSteps = [
+    {
+      icon: Target,
+      title: 'Diagnostico operativo',
+      description: 'Entendemos procesos, usuarios, datos, dolores actuales y objetivos de negocio antes de escribir codigo.',
+    },
+    {
+      icon: Layout,
+      title: 'Diseno de solucion',
+      description: 'Definimos arquitectura, experiencia de usuario, flujos, permisos, integraciones y metricas clave.',
+    },
+    {
+      icon: Code,
+      title: 'Desarrollo iterativo',
+      description: 'Construimos por entregas cortas para validar rapido, reducir riesgo y ajustar con evidencia.',
+    },
+    {
+      icon: Shield,
+      title: 'Despliegue y soporte',
+      description: 'Preparamos puesta en produccion, monitoreo, mejoras continuas y soporte para sostener la operacion.',
+    },
+  ];
+
+  const techCapabilities = [
+    'Aplicaciones web',
+    'SaaS multiusuario',
+    'APIs e integraciones',
+    'Dashboards BI',
+    'Automatizacion',
+    'Inteligencia artificial',
+    'Bases de datos',
+    'Cloud y despliegue',
+    'Seguridad y roles',
+    'Sistemas internos',
+    'Reportes ejecutivos',
+    'Modernizacion legacy',
+  ];
+
   const projects = [
     {
       icon: Gauge,
-      image: projectPigimImage,
+      image: pigimTourScreenshot,
       type: 'Producto SaaS',
-      title: 'PIGIM',
-      description: 'Gestion integral de incidencias con priorizacion, SLA, bitacora, evidencia y paneles operativos.',
-      impact: 'Control completo del ciclo de atencion',
-      stack: ['React', 'API', 'Dashboards', 'SLA'],
+      title: 'PIGIM - Tour de producto',
+      description: 'Acceso al demo con flujos separados para administrador y cliente.',
+      impact: 'Demo navegable para mostrar el alcance del producto',
+      stack: ['SaaS', 'Demo publica', 'Roles', 'Producto'],
+    },
+    {
+      icon: Code,
+      image: softwareDevelopmentImage,
+      type: 'Software a medida',
+      title: 'Aplicaciones empresariales',
+      description: 'Soluciones web para digitalizar operaciones, conectar areas y ordenar procesos internos.',
+      impact: 'Herramientas alineadas al flujo real del negocio',
+      stack: ['Web apps', 'UX', 'APIs', 'Procesos'],
     },
     {
       icon: BarChart,
-      image: projectBiImage,
-      type: 'Analitica',
-      title: 'Centro ejecutivo de datos',
-      description: 'Dashboards para seguimiento de ventas, soporte, productividad y alertas de gestion.',
-      impact: 'Decisiones con metricas actualizadas',
-      stack: ['BI', 'ETL', 'KPIs', 'Reportes'],
+      image: analyticsBiImage,
+      type: 'Datos y BI',
+      title: 'Dashboards ejecutivos',
+      description: 'Paneles de control para monitorear indicadores, tendencias y decisiones operativas.',
+      impact: 'Informacion clara para gerencia y equipos',
+      stack: ['BI', 'KPIs', 'Reportes', 'Metricas'],
     },
     {
       icon: Workflow,
-      image: projectAutomationImage,
+      image: automationWorkflowsImage,
       type: 'Automatizacion',
-      title: 'Flujos internos a medida',
-      description: 'Digitalizacion de aprobaciones, asignaciones, seguimiento de tareas y trazabilidad documental.',
-      impact: 'Menos tareas manuales y mas visibilidad',
-      stack: ['Workflows', 'Roles', 'Notificaciones', 'Auditoria'],
+      title: 'Flujos de trabajo inteligentes',
+      description: 'Automatizacion de tareas, aprobaciones, notificaciones y seguimiento de casos.',
+      impact: 'Menos trabajo manual y mas control del proceso',
+      stack: ['Workflows', 'Alertas', 'Roles', 'Auditoria'],
     },
     {
       icon: Brain,
-      image: projectAiImage,
+      image: aiDataImage,
       type: 'IA aplicada',
-      title: 'Asistentes para operacion',
-      description: 'Clasificacion de solicitudes, respuestas sugeridas y lectura inteligente de datos operativos.',
-      impact: 'Atencion mas rapida y consistente',
-      stack: ['IA', 'NLP', 'Clasificacion', 'Soporte'],
+      title: 'Analisis y asistencia inteligente',
+      description: 'Modelos y asistentes para clasificar, priorizar, resumir y detectar patrones operativos.',
+      impact: 'Equipos con mejor criterio y respuesta mas rapida',
+      stack: ['IA', 'Datos', 'Clasificacion', 'Soporte'],
     },
     {
       icon: Lock,
-      image: projectModernizationImage,
-      type: 'Modernizacion',
-      title: 'Sistemas empresariales seguros',
-      description: 'Evolucion de sistemas legacy hacia plataformas web con permisos, integraciones y escalabilidad.',
-      impact: 'Continuidad operativa sin frenar el negocio',
-      stack: ['Web apps', 'Seguridad', 'Integraciones', 'Cloud'],
+      image: cloudInfrastructureImage,
+      type: 'Cloud y seguridad',
+      title: 'Infraestructura para escalar',
+      description: 'Arquitecturas cloud, despliegues, permisos e integraciones para sistemas empresariales.',
+      impact: 'Bases tecnicas estables para crecer',
+      stack: ['Cloud', 'Seguridad', 'APIs', 'Integraciones'],
     },
   ];
 
@@ -168,20 +236,85 @@ function HomePage() {
 
   const flow = ['Registro', 'Clasificacion', 'Asignacion', 'Resolucion', 'Metricas'];
 
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Dyxersoft',
+    url: SITE_URL,
+    logo: `${SITE_URL}dyxersoft-logo.png`,
+    email: 'dyxersoft@gmail.com',
+    telephone: '+59162069477',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Santa Cruz de la Sierra',
+      addressCountry: 'BO',
+    },
+    sameAs: [
+      'https://www.linkedin.com/company/dyxersoft',
+      'https://www.facebook.com/share/1KwhxcATJr/',
+    ],
+  };
+
+  const webSiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Dyxersoft',
+    url: SITE_URL,
+    inLanguage: 'es-BO',
+    description: SITE_DESCRIPTION,
+  };
+
+  const serviceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    name: 'Dyxersoft',
+    url: SITE_URL,
+    image: OG_IMAGE_URL,
+    areaServed: 'Bolivia',
+    serviceType: [
+      'Desarrollo de software a medida',
+      'Desarrollo SaaS',
+      'Gestion de incidencias',
+      'Dashboards ejecutivos',
+      'Automatizacion de procesos',
+      'Inteligencia artificial aplicada',
+    ],
+    description: SITE_DESCRIPTION,
+  };
+
   return (
     <>
       <Helmet>
-        <title>Dyxersoft | PIGIM para gestion inteligente de incidencias</title>
+        <html lang="es" />
+        <title>{SITE_TITLE}</title>
         <meta
           name="description"
-          content="PIGIM centraliza incidencias empresariales, prioriza casos criticos, controla SLA y entrega metricas en tiempo real para equipos de soporte y operaciones."
+          content={SITE_DESCRIPTION}
         />
         <meta
           name="keywords"
-          content="PIGIM, Dyxersoft, gestion de incidencias, software Bolivia, SaaS, inteligencia artificial, dashboards, SLA, soporte tecnico"
+          content="Dyxersoft, software a medida Bolivia, desarrollo SaaS, PIGIM, gestion de incidencias, inteligencia artificial, dashboards BI, automatizacion de procesos, Santa Cruz Bolivia"
         />
-        <meta property="og:title" content="Dyxersoft | PIGIM para gestion inteligente de incidencias" />
-        <meta property="og:description" content="Control operativo, trazabilidad y datos en tiempo real para empresas que atienden incidencias multicanal." />
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Dyxersoft" />
+        <meta name="geo.region" content="BO-S" />
+        <meta name="geo.placename" content="Santa Cruz de la Sierra" />
+        <link rel="canonical" href={SITE_URL} />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="es_BO" />
+        <meta property="og:url" content={SITE_URL} />
+        <meta property="og:site_name" content="Dyxersoft" />
+        <meta property="og:title" content={SITE_TITLE} />
+        <meta property="og:description" content={SITE_DESCRIPTION} />
+        <meta property="og:image" content={OG_IMAGE_URL} />
+        <meta property="og:image:alt" content="Dyxersoft desarrolla software a medida, SaaS, datos e IA" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={SITE_TITLE} />
+        <meta name="twitter:description" content={SITE_DESCRIPTION} />
+        <meta name="twitter:image" content={OG_IMAGE_URL} />
+        <script type="application/ld+json">{JSON.stringify(organizationSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(webSiteSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(serviceSchema)}</script>
       </Helmet>
 
       <main className="overflow-hidden">
@@ -345,7 +478,7 @@ function HomePage() {
           </div>
         </section>
 
-        <section id="pigim" className="blue-section py-24">
+        <section id="pigim" className="blue-section scroll-mt-24 py-24">
           <div className="section-container">
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
               <div className="space-y-6">
@@ -389,7 +522,7 @@ function HomePage() {
           </div>
         </section>
 
-        <section id="beneficios" className="bg-background py-24">
+        <section id="beneficios" className="scroll-mt-24 bg-background py-24">
           <div className="section-container">
             <div className="mb-12 text-center">
               <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-secondary">Impacto</p>
@@ -419,7 +552,7 @@ function HomePage() {
           </div>
         </section>
 
-        <section id="servicios" className="bg-card py-24">
+        <section id="servicios" className="scroll-mt-24 bg-card py-24">
           <div className="section-container">
             <div className="mb-12 max-w-4xl">
               <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-secondary">Dyxersoft</p>
@@ -446,17 +579,94 @@ function HomePage() {
           </div>
         </section>
 
-        <section id="proyectos" className="blue-section py-24">
+        <section className="bg-background py-24">
+          <div className="section-container">
+            <div className="mb-12 grid grid-cols-1 gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+              <div>
+                <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-secondary">Proceso</p>
+                <h2 className="text-3xl font-black leading-tight md:text-5xl">
+                  Un metodo claro para convertir ideas en software que se usa.
+                </h2>
+              </div>
+              <p className="text-lg leading-8 text-muted-foreground">
+                Trabajamos con foco en impacto: entender la operacion, disenar una solucion viable,
+                construir por etapas y acompanar el despliegue para que el producto genere valor real.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {processSteps.map(({ icon: Icon, title, description }, index) => (
+                <motion.div
+                  key={title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.25 }}
+                  transition={{ duration: 0.4, delay: index * 0.06 }}
+                  className="enterprise-card top-accent rounded-xl p-6"
+                >
+                  <div className="mb-5 flex items-center justify-between">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted text-primary">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <span className="font-mono text-sm font-black text-secondary">0{index + 1}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground">{title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="blue-section py-24">
+          <div className="section-container">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.25 }}
+                transition={{ duration: 0.5 }}
+                className="space-y-6"
+              >
+                <p className="text-sm font-bold uppercase tracking-[0.2em] text-secondary">Tecnologia</p>
+                <h2 className="text-3xl font-black leading-tight md:text-5xl">
+                  Capacidades para construir productos digitales completos.
+                </h2>
+                <p className="text-lg leading-8 text-muted-foreground">
+                  Podemos iniciar con un MVP, modernizar un sistema existente o desarrollar una plataforma completa
+                  con datos, automatizacion, permisos, integraciones e inteligencia artificial.
+                </p>
+              </motion.div>
+
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+                {techCapabilities.map((capability, index) => (
+                  <motion.div
+                    key={capability}
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: false, amount: 0.2 }}
+                    transition={{ duration: 0.32, delay: index * 0.025 }}
+                    className="rounded-lg border border-border bg-card/80 px-4 py-4 text-sm font-bold text-foreground shadow-sm"
+                  >
+                    {capability}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="proyectos" className="blue-section scroll-mt-24 py-24">
           <div className="section-container">
             <div className="mb-12 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-4xl">
                 <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-secondary">Proyectos</p>
                 <h2 className="text-3xl font-black leading-tight md:text-5xl">
-                  Soluciones digitales pensadas para operar, medir y escalar.
+                  Productos y experiencias digitales desarrolladas con enfoque operativo.
                 </h2>
                 <p className="mt-5 text-lg leading-8 text-muted-foreground">
-                  Estos casos muestran el tipo de software que desarrollamos: productos SaaS, sistemas a medida,
-                  automatizacion, datos e inteligencia artificial aplicada a procesos reales.
+                  Una vitrina de soluciones SaaS, portales, interfaces moviles y experiencias web pensadas para
+                  resolver procesos de negocio con claridad, trazabilidad y buen diseno.
                 </p>
               </div>
               <Button
@@ -470,38 +680,50 @@ function HomePage() {
             </div>
 
             <Carousel
-              opts={{ align: 'start', loop: true }}
+              setApi={setProjectCarouselApi}
+              opts={{ align: 'center', loop: true }}
               className="mx-auto max-w-[calc(100vw-2rem)]"
+              onMouseEnter={() => setIsProjectCarouselPaused(true)}
+              onMouseLeave={() => setIsProjectCarouselPaused(false)}
             >
               <CarouselContent className="-ml-5">
                 {projects.map(({ icon: Icon, image, type, title, description, impact, stack }, index) => (
-                  <CarouselItem key={title} className="pl-5 md:basis-1/2 xl:basis-1/3">
+                  <CarouselItem key={title} className="pl-5 md:basis-[82%] xl:basis-[68%]">
                     <motion.article
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: false, amount: 0.25 }}
                       transition={{ duration: 0.45, delay: index * 0.05 }}
-                      className="enterprise-card glow-border flex h-full min-h-[520px] flex-col overflow-hidden rounded-xl"
+                      className="enterprise-card glow-border grid h-full overflow-hidden rounded-xl lg:grid-cols-[1.35fr_0.65fr]"
                     >
-                      <div className="relative aspect-[16/10] overflow-hidden border-b border-border bg-background">
-                        <img
-                          src={image}
-                          alt={`Visual del proyecto ${title}`}
-                          className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]"
-                          loading="lazy"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent" />
-                        <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4">
-                          <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-white/10 bg-background/80 text-primary shadow-lg backdrop-blur">
+                      <div className="relative overflow-hidden border-b border-border bg-background p-3 lg:border-b-0 lg:border-r lg:p-5">
+                        <div className="rounded-xl border border-border bg-card p-2 shadow-[0_24px_70px_rgba(0,0,0,0.18)]">
+                          <div className="mb-2 flex items-center gap-1.5 px-1">
+                            <span className="h-2.5 w-2.5 rounded-full bg-destructive/80" />
+                            <span className="h-2.5 w-2.5 rounded-full bg-secondary/80" />
+                            <span className="h-2.5 w-2.5 rounded-full bg-primary/80" />
+                          </div>
+                          <div className="relative aspect-[16/9] overflow-hidden rounded-lg bg-background">
+                            <img
+                              src={image}
+                              alt={`Vista del proyecto ${title}`}
+                              className="h-full w-full object-cover transition-transform duration-700 hover:scale-[1.025]"
+                              loading="lazy"
+                            />
+                          </div>
+                        </div>
+                        <div className="pointer-events-none absolute inset-x-8 bottom-0 h-24 bg-gradient-to-t from-background/80 to-transparent" />
+                      </div>
+
+                      <div className="flex min-h-[420px] flex-col p-6 lg:p-8">
+                        <div className="mb-6 flex items-start justify-between gap-4">
+                          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                             <Icon className="h-6 w-6" />
                           </div>
-                          <Badge variant="outline" className="border-secondary/25 bg-background/80 text-secondary backdrop-blur">
+                          <Badge variant="outline" className="border-secondary/25 bg-secondary/10 text-secondary">
                             {type}
                           </Badge>
                         </div>
-                      </div>
-
-                      <div className="flex flex-1 flex-col p-6">
                         <h3 className="text-2xl font-black text-foreground">{title}</h3>
                         <p className="mt-4 leading-7 text-muted-foreground">{description}</p>
 
@@ -526,22 +748,24 @@ function HomePage() {
               <CarouselNext className="-right-3 border-border bg-card text-foreground hover:bg-muted md:-right-6" />
             </Carousel>
 
-            <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-5">
-              {projects.map(({ image, title, type }) => (
-                <div key={`${title}-preview`} className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-border bg-card">
-                  <img
-                    src={image}
-                    alt={`Vista previa de ${title}`}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
-                  <div className="absolute inset-x-3 bottom-3">
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">{type}</p>
-                    <p className="mt-1 line-clamp-2 text-sm font-bold text-foreground">{title}</p>
+            <div className="mt-10 overflow-hidden">
+              <div className="project-marquee flex w-max gap-4">
+                {[...projects, ...projects].map(({ image, title, type }, index) => (
+                  <div key={`${title}-preview-${index}`} className="group relative h-40 w-64 overflow-hidden rounded-xl border border-border bg-card md:h-48 md:w-80">
+                    <img
+                      src={image}
+                      alt={`Vista previa de ${title}`}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+                    <div className="absolute inset-x-3 bottom-3">
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-secondary">{type}</p>
+                      <p className="mt-1 line-clamp-2 text-sm font-bold text-foreground">{title}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -596,7 +820,7 @@ function HomePage() {
           </div>
         </section>
 
-        <section id="nosotros" className="bg-card py-24">
+        <section id="nosotros" className="scroll-mt-24 bg-card py-24">
           <div className="section-container">
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
               <div className="space-y-6">
@@ -631,7 +855,7 @@ function HomePage() {
           </div>
         </section>
 
-        <section id="contacto" className="bg-muted/55 py-24">
+        <section id="contacto" className="scroll-mt-24 bg-muted/55 py-24">
           <div className="section-container">
             <div className="mx-auto mb-12 max-w-3xl text-center">
               <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-secondary">Contacto</p>
