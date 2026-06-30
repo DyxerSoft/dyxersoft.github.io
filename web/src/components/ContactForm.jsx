@@ -16,14 +16,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
-const WHATSAPP_NUMBER = '59162069477';
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xdarlpkw';
 
 const formSchema = z.object({
   nombre: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
   empresa: z.string().min(1, 'La empresa es requerida'),
   cargo: z.string().optional(),
-  correo: z.string().email('Correo electrónico inválido'),
-  telefono: z.string().min(1, 'El teléfono es requerido'),
+  correo: z.string().email('Correo electronico invalido'),
+  telefono: z.string().min(1, 'El telefono es requerido'),
   servicio: z.string().min(1, 'Selecciona un servicio'),
   mensaje: z.string().min(10, 'El mensaje debe tener al menos 10 caracteres'),
 });
@@ -32,9 +32,9 @@ const serviceLabels = {
   'demo-pigim': 'Demo de PIGIM',
   'desarrollo-saas': 'Desarrollo SaaS',
   'software-personalizado': 'Software personalizado',
-  'ingenieria-datos-bi': 'Ingeniería de datos/BI',
-  automatizacion: 'Automatización',
-  consultoria: 'Consultoría tecnológica',
+  'ingenieria-datos-bi': 'Ingenieria de datos/BI',
+  automatizacion: 'Automatizacion',
+  consultoria: 'Consultoria tecnologica',
 };
 
 function ContactForm() {
@@ -58,32 +58,40 @@ function ContactForm() {
 
     try {
       const timestamp = new Date().toISOString();
-      const storageKey = `dyxersoft_contact_${Date.now()}`;
-      localStorage.setItem(storageKey, JSON.stringify({ ...data, timestamp }));
+      const serviceLabel = serviceLabels[data.servicio] || data.servicio;
+      const payload = {
+        nombre: data.nombre,
+        empresa: data.empresa,
+        cargo: data.cargo || 'No indicado',
+        correo: data.correo,
+        email: data.correo,
+        telefono: data.telefono,
+        servicio: serviceLabel,
+        mensaje: data.mensaje,
+        enviado_en: timestamp,
+        _subject: `Nuevo contacto Dyxersoft: ${data.empresa}`,
+        _replyto: data.correo,
+      };
 
-      const whatsappMessage = [
-        'Hola Dyxersoft, quiero solicitar información.',
-        '',
-        `Nombre: ${data.nombre}`,
-        `Empresa: ${data.empresa}`,
-        `Cargo: ${data.cargo || 'No indicado'}`,
-        `Correo: ${data.correo}`,
-        `Teléfono: ${data.telefono}`,
-        `Servicio: ${serviceLabels[data.servicio] || data.servicio}`,
-        '',
-        `Mensaje: ${data.mensaje}`,
-      ].join('\n');
+      localStorage.setItem(`dyxersoft_contact_${Date.now()}`, JSON.stringify(payload));
 
-      window.open(
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`,
-        '_blank',
-        'noopener,noreferrer',
-      );
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-      toast.success('Se abrió WhatsApp con tu mensaje listo para enviar.');
+      if (!response.ok) {
+        throw new Error('Formspree request failed');
+      }
+
+      toast.success('Tu mensaje fue enviado correctamente. Te contactaremos pronto.');
       reset();
     } catch (error) {
-      toast.error('Hubo un error al preparar el mensaje. Por favor intenta nuevamente.');
+      toast.error('No se pudo enviar el formulario. Por favor intenta nuevamente.');
     } finally {
       setIsSubmitting(false);
     }
@@ -110,20 +118,20 @@ function ContactForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="correo" className="text-foreground">Correo electrónico *</Label>
+          <Label htmlFor="correo" className="text-foreground">Correo electronico *</Label>
           <Input id="correo" type="email" {...register('correo')} placeholder="tu@email.com" className={inputClass} />
           {errors.correo && <p className="text-sm text-destructive">{errors.correo.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="telefono" className="text-foreground">Teléfono / WhatsApp *</Label>
+          <Label htmlFor="telefono" className="text-foreground">Telefono / WhatsApp *</Label>
           <Input id="telefono" {...register('telefono')} placeholder="62069477" className={inputClass} />
           {errors.telefono && <p className="text-sm text-destructive">{errors.telefono.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="servicio" className="text-foreground">Servicio de interés *</Label>
-          <Select onValueChange={(value) => setValue('servicio', value)} value={servicioValue}>
+          <Label htmlFor="servicio" className="text-foreground">Servicio de interes *</Label>
+          <Select onValueChange={(value) => setValue('servicio', value, { shouldValidate: true })} value={servicioValue}>
             <SelectTrigger className={inputClass}>
               <SelectValue placeholder="Selecciona un servicio" />
             </SelectTrigger>
@@ -131,9 +139,9 @@ function ContactForm() {
               <SelectItem value="demo-pigim">Demo de PIGIM</SelectItem>
               <SelectItem value="desarrollo-saas">Desarrollo SaaS</SelectItem>
               <SelectItem value="software-personalizado">Software personalizado</SelectItem>
-              <SelectItem value="ingenieria-datos-bi">Ingeniería de datos/BI</SelectItem>
-              <SelectItem value="automatizacion">Automatización</SelectItem>
-              <SelectItem value="consultoria">Consultoría tecnológica</SelectItem>
+              <SelectItem value="ingenieria-datos-bi">Ingenieria de datos/BI</SelectItem>
+              <SelectItem value="automatizacion">Automatizacion</SelectItem>
+              <SelectItem value="consultoria">Consultoria tecnologica</SelectItem>
             </SelectContent>
           </Select>
           {errors.servicio && <p className="text-sm text-destructive">{errors.servicio.message}</p>}
@@ -145,7 +153,7 @@ function ContactForm() {
         <Textarea
           id="mensaje"
           {...register('mensaje')}
-          placeholder="Cuéntanos sobre tu operación, canales actuales y volumen aproximado de incidencias..."
+          placeholder="Cuentanos sobre tu operacion, canales actuales y volumen aproximado de incidencias..."
           rows={5}
           className={`${inputClass} resize-none`}
         />
@@ -160,10 +168,10 @@ function ContactForm() {
         {isSubmitting ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Preparando...
+            Enviando...
           </>
         ) : (
-          'Enviar por WhatsApp'
+          'Enviar mensaje'
         )}
       </Button>
     </form>
